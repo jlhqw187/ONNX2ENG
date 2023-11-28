@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(yolov5)
+
+set(SOURCES_PATH src)
+set(TARGET_NAME main)
+
+file(GLOB_RECURSE SOURCES_FILES ${SOURCES_PATH}/*.cpp)
+include_directories(./include)
+
+include_directories(/usr/local/cuda/include)
+link_directories(/usr/local/cuda/lib64)
+
+
+include_directories(/usr/local/TensorRT-7.2.2.3/include/)
+link_directories(/usr/local/TensorRT-7.2.2.3/lib/)
+
+
+find_package(OpenCV)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+
+
+add_executable(${TARGET_NAME} ${SOURCES_FILES})
+target_link_libraries(${TARGET_NAME} ${OpenCV_LIBS})
+target_link_libraries(${TARGET_NAME} cudart)
+target_link_libraries(${TARGET_NAME} nvinfer)
+target_link_libraries(${TARGET_NAME} nvonnxparser)
